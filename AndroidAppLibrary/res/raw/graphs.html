@@ -12,9 +12,8 @@
 	options = {
 		lines: {
 			show: true
-			, lineWidth: 1
-			, fill: true
-			, fillColor: { colors: [ "rgba(79, 161, 203, 0.8)", "rgba(162,207,231,0.5)" ]}
+			, lineWidth: 2
+			, fill: false
 			
 		}
 		, bars: {
@@ -298,28 +297,43 @@ function parseData_OLD(data, tag){
 function parseData(data, tag){
     log("js:parseData()");
     new_data = [];
+    mobile_data = [];
+    wifi_data = [];
     for(key in data['results']){
         datetime='';
         value='';
         time='';
+        type='';
 
   	  	  item = data['results'][key];
   	  	  value=item.value;
           time = getDate(item.datetime);
-          new_data.push([time, value]);
-          log ("time="+time+" value="+value);
+          type = item.networktype;
+          if (type == 'WiFi') {
+              wifi_data.push([time, value]);
+          }
+          else {
+              mobile_data.push([time, value]);
+          }
+          //log ("time="+time+" value="+value+" type="+type);
     }
+    new_data[0] = mobile_data;
+    new_data[1] = wifi_data;
+    
     return new_data;
 }
 
 function sortData(data){
-      log("js:sortData");
-      data.sort(function(a, b){ return a[0] - b[0]; });
+	  if (typeof data != 'undefined') {
+      	  log("js:sortData");
+      	  data.sort(function(a, b){ return a[0] - b[0]; });
+      }
       return data;
 }
 
 function fillData(data, start_date){
       log("js:fillData");
+      log ("js:fillData sortData1");
       data = sortData(data);
 
       first_date = data[0][0];
@@ -328,7 +342,7 @@ function fillData(data, start_date){
 
       while (start_date < first_date){
       
-      		log("js: start_date="+start_date+" first_date="+first_date);
+      		//log("js: start_date="+start_date+" first_date="+first_date);
       		
 
             tmp = [start_date, 0];
@@ -337,7 +351,8 @@ function fillData(data, start_date){
             start_date = start_date + (1000 * 60 * 60 * 24);
       }
 
-     data = sortData(data);
+      log ("js:fillData sortData2");
+      data = sortData(data);
       return data;
 }
 
@@ -378,14 +393,15 @@ function update(){
             start_date = getStartDate(data);
 
             data = parseData(data, tag);
-            data = fillData(data, start_date);
+            mobile_data = fillData(data[0], start_date);
+            wifi_data = fillData(data[1], start_date);
 
-            data = { data: data, color: '#065496'};
-            
+            mobile_data = { data: mobile_data, color: '#065496', fillColor: { colors: [ "rgba(79, 161, 203, 0.8)", "rgba(162,207,231,0.5)" ]}};
+            wifi_data = { data: wifi_data, color: '#964806', fillColor: { colors: [ "rgba(203,121,79,0.8)", "rgba(69,0,231,0.5)" ]}};
             
 
             setLabel(tag);
-            plotter = $.plot($('#plot'), [data], options);
+            plotter = $.plot($('#plot'), [wifi_data, mobile_data], options);
       }catch(err){
     	  	document.write("error "+err)
             log("js:Error: " + err);

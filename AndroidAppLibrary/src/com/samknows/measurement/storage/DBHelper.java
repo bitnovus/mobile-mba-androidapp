@@ -41,6 +41,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.samknows.measurement.Logger;
 
 //Helper class for accessing the data stored in the SQLite DB
@@ -59,6 +61,9 @@ public class DBHelper {
 			GRAPHDATA_YLABEL, GRAPHDATA_STARTDATE, GRAPHDATA_ENDDATE,
 			GRAPHDATA_RESULTS, GRAPHDATA_RESULTS_DATETIME,
 			GRAPHDATA_RESULTS_VALUE };
+	
+	// extra key for graphing 
+	public static final String GRAPHDATA_NETWORKTYPE = "networktype";
 
 	// gridtata JSONObject keys
 	public static final String GRIDDATA_TYPE = "type";
@@ -224,6 +229,7 @@ public class DBHelper {
 			long dtime = tr.getLong(SKSQLiteHelper.TR_COLUMN_DTIME);
 			ret.put(GRAPHDATA_RESULTS_DATETIME, "" + dtime);
 			ret.put(GRAPHDATA_RESULTS_VALUE, value);
+			ret.put(GRAPHDATA_NETWORKTYPE, tr.getString(GRAPHDATA_NETWORKTYPE));
 		} catch (JSONException je) {
 
 		}
@@ -279,8 +285,8 @@ public class DBHelper {
 					test_type, startdtime, enddtime);
 			JSONArray results = new JSONArray();
 			for (JSONObject jo : entries) {
+				jo.put(GRAPHDATA_NETWORKTYPE, getNetworkValue(jo.getInt("batch_id")));
 				results.put(testResultToGraphData(test_type_id, jo));
-
 			}
 			ret.put(GRAPHDATA_RESULTS, results);
 		} catch (JSONException je) {
@@ -579,7 +585,7 @@ public class DBHelper {
 		String selection = String.format("%s = '%s' AND %s BETWEEN %d AND %d",
 				SKSQLiteHelper.TR_COLUMN_TYPE, type,
 				SKSQLiteHelper.TR_COLUMN_DTIME, starttime, endtime);
-		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
+		List<Integer> batches = getTestBatchesByPassiveMetric(getAllPassiveMetricsFilter());
 		if (batches == null || batches.size() == 0) {
 			return new ArrayList<JSONObject>();
 		}
@@ -703,6 +709,16 @@ public class DBHelper {
 				.append("= 'mobile' ");
 		return sb.toString();
 	}
+	
+	// Filtering to include WiFi results
+	private String getAllPassiveMetricsFilter() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(SKSQLiteHelper.PM_COLUMN_METRIC);
+		sb.append("= '")
+				.append(PassiveMetric.METRIC_TYPE.ACTIVENETWORKTYPE.metric_name)
+				.append("'");
+		return sb.toString();
+	}
 
 	// Return a list of test batch ids with a passive metric value equal to
 	// value in the specified period
@@ -774,6 +790,23 @@ public class DBHelper {
 				ret.add(cursorPassiveMetricToJSONObject(cursor));
 				cursor.moveToNext();
 			}
+			cursor.close();
+			close();
+			return ret;
+		}
+	}
+	
+	private String getNetworkValue(long test_batch_id) {
+		synchronized (sync) {
+			String ret = "";
+			open();
+			String selection = SKSQLiteHelper.PM_COLUMN_BATCH_ID + " = "
+					+ test_batch_id;
+			Cursor cursor = database.query(SKSQLiteHelper.TABLE_PASSIVEMETRIC,
+					SKSQLiteHelper.TABLE_PASSIVEMETRIC_ALLCOLUMNS, selection,
+					null, null, null, null, null);
+			cursor.move(7); // lazy hack
+			ret = cursor.getString(3); // lazy hack
 			cursor.close();
 			close();
 			return ret;
