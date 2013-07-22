@@ -31,6 +31,7 @@ package com.samknows.measurement.storage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.Logger;
 
 //Helper class for accessing the data stored in the SQLite DB
@@ -122,6 +124,9 @@ public class DBHelper {
 	public DBHelper(Context context) {
 		dbhelper = new SKSQLiteHelper(context);
 	}
+	
+	// Primitive Cache
+	private WeakHashMap<Long, String> cache_batch_isMobile = new WeakHashMap<Long, String>();
 
 	private boolean open() {
 		boolean ret = false;
@@ -809,6 +814,8 @@ public class DBHelper {
 			ret = cursor.getString(3); // lazy hack
 			cursor.close();
 			close();
+			
+			cache_batch_isMobile.put(test_batch_id, ret);
 			return ret;
 		}
 	}

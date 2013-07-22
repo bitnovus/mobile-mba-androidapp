@@ -336,8 +336,15 @@ function fillData(data, start_date){
       log ("js:fillData sortData1");
       data = sortData(data);
 
+      log("js:first_date");
+      
+      if (typeof data[0] === 'undefined') {
+          log("js:BAIL OUT");
+          return null;
+      }
       first_date = data[0][0];
       
+      log("js:start_date");
       start_date=Number(start_date);
 
       while (start_date < first_date){
@@ -396,12 +403,28 @@ function update(){
             mobile_data = fillData(data[0], start_date);
             wifi_data = fillData(data[1], start_date);
 
-            mobile_data = { data: mobile_data, color: '#065496', fillColor: { colors: [ "rgba(79, 161, 203, 0.8)", "rgba(162,207,231,0.5)" ]}};
-            wifi_data = { data: wifi_data, color: '#964806', fillColor: { colors: [ "rgba(203,121,79,0.8)", "rgba(69,0,231,0.5)" ]}};
+            if (mobile_data != null) {
+            	mobile_data = { data: mobile_data, color: '#065496', fillColor: { colors: [ "rgba(79, 161, 203, 0.8)", "rgba(162,207,231,0.5)" ]}};
+            }
+            if (wifi_data != null) { 
+            	wifi_data = { data: wifi_data, color: '#964806', fillColor: { colors: [ "rgba(203,121,79,0.8)", "rgba(69,0,231,0.5)" ]}};
+            }
             
 
             setLabel(tag);
-            plotter = $.plot($('#plot'), [wifi_data, mobile_data], options);
+            if (mobile_data != null && wifi_data != null) {
+                plotter = $.plot($('#plot'), [wifi_data, mobile_data], options);
+            }
+            else if(mobile_data != null) {
+                plotter = $.plot($('#plot'), [mobile_data], options);
+            }
+            else if(wifi_data != null) {
+                plotter = $.plot($('#plot'), [wifi_data], options);
+            }
+            else {
+            	log("js:shouldn't get here");
+            }
+            
       }catch(err){
     	  	document.write("error "+err)
             log("js:Error: " + err);
