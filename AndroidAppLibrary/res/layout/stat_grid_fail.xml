@@ -27,17 +27,17 @@
         <TextView
             android:id="@+id/stat_grid_location"
             style="@style/column_left"
-            android:layout_width="65dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="@string/location_type_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#d00000"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/stat_grid_result"
             style="@style/column_left"
-            android:layout_width="65dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/date"
             android:textAppearance="?android:attr/textAppearanceMedium"
