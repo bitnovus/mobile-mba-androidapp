@@ -355,7 +355,7 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 			try {
 				JSONObject json_data = jsonResultMobile.getJSONObject(i);
 				String value = json_data.getString("value");
-				value += " mobile";
+				value += " Mobi";
 				String type = json_data.getString("type");
 
 				if (type.equals("" + TestResult.DOWNLOAD_TEST_ID)) {
