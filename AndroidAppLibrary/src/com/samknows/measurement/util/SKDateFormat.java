@@ -57,7 +57,7 @@ public class SKDateFormat  {
 				sb.append("MM");
 				break;
 			case DateFormat.YEAR:
-				sb.append("yyyy");
+				sb.append("yy");
 				break;
 			}
 		}
