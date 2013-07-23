@@ -338,21 +338,24 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 	}
 
 	private void loadAverage(int num_weeks) {
-		JSONArray jsonResult;
+		JSONArray jsonResultMobile;
+		JSONArray jsonResultWiFi;
 		Calendar now = Calendar.getInstance();
 
 		long current_dtime = now.getTimeInMillis();
 		now.add(Calendar.WEEK_OF_YEAR, num_weeks * -1);
 		long starting_dtime = now.getTimeInMillis();
 
-		jsonResult = dbHelper.getAverageResults(starting_dtime, current_dtime);
+		jsonResultMobile = dbHelper.getAverageResults(starting_dtime, current_dtime, "mobile");
+		jsonResultWiFi = dbHelper.getAverageResults(starting_dtime, current_dtime, "WiFi");
 
 		String result = "";
 
-		for (int i = 0; i < jsonResult.length(); i++) {
+		for (int i = 0; i < jsonResultMobile.length(); i++) {
 			try {
-				JSONObject json_data = jsonResult.getJSONObject(i);
+				JSONObject json_data = jsonResultMobile.getJSONObject(i);
 				String value = json_data.getString("value");
+				value += " mobile";
 				String type = json_data.getString("type");
 
 				if (type.equals("" + TestResult.DOWNLOAD_TEST_ID)) {
@@ -373,6 +376,40 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 				}
 				if (type.equals("" + TestResult.JITTER_TEST_ID)) {
 					((TextView) subview.findViewById(R.id.jitter_average))
+							.setText("" + value);
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+		
+		for (int i = 0; i < jsonResultWiFi.length(); i++) {
+			try {
+				JSONObject json_data = jsonResultWiFi.getJSONObject(i);
+				String value = json_data.getString("value");
+				value += " WiFi";
+				String type = json_data.getString("type");
+
+				if (type.equals("" + TestResult.DOWNLOAD_TEST_ID)) {
+					((TextView) subview.findViewById(R.id.wifi_download_average))
+							.setText("" + value);
+				}
+				if (type.equals("" + TestResult.UPLOAD_TEST_ID)) {
+					((TextView) subview.findViewById(R.id.wifi_upload_average))
+							.setText("" + value);
+				}
+				if (type.equals("" + TestResult.LATENCY_TEST_ID)) {
+					((TextView) subview.findViewById(R.id.wifi_latency_average))
+							.setText("" + value);
+				}
+				if (type.equals("" + TestResult.PACKETLOSS_TEST_ID)) {
+					((TextView) subview.findViewById(R.id.wifi_packetloss_average))
+							.setText("" + value);
+				}
+				if (type.equals("" + TestResult.JITTER_TEST_ID)) {
+					((TextView) subview.findViewById(R.id.wifi_jitter_average))
 							.setText("" + value);
 				}
 

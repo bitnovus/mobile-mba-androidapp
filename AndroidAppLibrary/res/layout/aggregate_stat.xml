@@ -53,7 +53,6 @@
                     android:layout_height="50dp"
                     android:contentDescription="@string/page_turn"
                     android:src="@drawable/page_turn_right" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -123,7 +122,6 @@
                         android:paddingLeft="10dp"
                         android:text="@string/run_now"
                         android:textColor="#ffffff" />
-
                 </LinearLayout>
 
                 <ImageView
@@ -219,7 +217,6 @@
                             android:textColor="#000000"
                             android:width="190dp" />
                     </LinearLayout>
-
                 </RelativeLayout>
 
                 <TableLayout
@@ -274,16 +271,31 @@
                                 android:textSize="18sp"
                                 android:width="140dp" />
 
-                            <TextView
-                                android:id="@+id/download_average"
-                                style="@style/column"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right|center_vertical"
-                                android:layout_weight="3"
-                                android:padding="5dp"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="16sp" />
+                                android:orientation="vertical" >
+
+                                <TextView
+                                    android:id="@+id/download_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/wifi_download_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
@@ -308,8 +320,6 @@
                             android:layout_height="wrap_content"
                             android:gravity="left"
                             android:visibility="visible" >
-                        
-
                         </TableLayout>
 
                         <TableLayout
@@ -361,11 +371,9 @@
                                     android:contentDescription="@string/next_grid"
                                     android:height="40dp"
                                     android:textColor="#000000" />
-
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -411,17 +419,33 @@
                                 android:textSize="18sp"
                                 android:width="140dp" />
 
-                            <TextView
-                                android:id="@+id/upload_average"
-                                style="@style/column"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right|center_vertical"
-                                android:layout_weight="7"
-                                android:padding="5dp"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="16sp" />
+                                android:orientation="vertical" >
 
+                                <TextView
+                                    android:id="@+id/upload_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/wifi_upload_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
@@ -445,7 +469,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left" >
-
                         </TableLayout>
 
                         <TableLayout
@@ -495,11 +518,9 @@
                                     android:contentDescription="@string/next_grid"
                                     android:height="40dp"
                                     android:textColor="#000000" />
-
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -545,17 +566,33 @@
                                 android:textSize="18sp"
                                 android:width="140dp" />
 
-                            <TextView
-                                android:id="@+id/latency_average"
-                                style="@style/column"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right|center_vertical"
-                                android:layout_weight="7"
-                                android:padding="5dp"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="16sp" />
+                                android:orientation="vertical" >
 
+                                <TextView
+                                    android:id="@+id/latency_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/wifi_latency_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
@@ -579,7 +616,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left" >
-
                         </TableLayout>
 
                         <TableLayout
@@ -628,11 +664,9 @@
                                     android:contentDescription="@string/next_grid"
                                     android:height="40dp"
                                     android:textColor="#000000" />
-
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -677,17 +711,33 @@
                                 android:textSize="18sp"
                                 android:width="140dp" />
 
-                            <TextView
-                                android:id="@+id/packetloss_average"
-                                style="@style/column"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right|center_vertical"
-                                android:layout_weight="7"
-                                android:padding="5dp"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="16sp" />
+                                android:orientation="vertical" >
 
+                                <TextView
+                                    android:id="@+id/packetloss_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/wifi_packetloss_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
@@ -711,7 +761,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left" >
-
                         </TableLayout>
 
                         <TableLayout
@@ -760,11 +809,9 @@
                                     android:contentDescription="@string/next_grid"
                                     android:height="40dp"
                                     android:textColor="#000000" />
-
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -810,17 +857,33 @@
                                 android:textSize="18sp"
                                 android:width="140dp" />
 
-                            <TextView
-                                android:id="@+id/jitter_average"
-                                style="@style/column"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right|center_vertical"
-                                android:layout_weight="7"
-                                android:padding="5dp"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="16sp" />
+                                android:orientation="vertical" >
 
+                                <TextView
+                                    android:id="@+id/jitter_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/wifi_jitter_average"
+                                    style="@style/column"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_weight="7"
+                                    android:padding="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
@@ -844,7 +907,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left" >
-
                         </TableLayout>
 
                         <TableLayout
@@ -892,13 +954,10 @@
                                     android:contentDescription="@string/next_grid"
                                     android:height="40dp"
                                     android:textColor="#000000" />
-
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
 
@@ -910,7 +969,6 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/paper_clip"
             android:src="@drawable/clip_shadow_small" />
-
     </RelativeLayout>
 
 </ScrollView>

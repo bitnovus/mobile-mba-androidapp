@@ -688,9 +688,16 @@ public class DBHelper {
 	}
 
 	//
-	public JSONArray getAverageResults(long starttime, long endtime) {
-		List<Integer> batches = getTestBatchesByPassiveMetric(starttime,
-				endtime);
+	public JSONArray getAverageResults(long starttime, long endtime, String networktype) {
+		List<Integer> batches;
+		if (networktype.equals("WiFi")) {
+			batches = getWiFiTestBatchesByPassiveMetric(starttime,
+					endtime);
+		}
+		else {
+			batches = getMobileTestBatchesByPassiveMetric(starttime,
+					endtime);
+		}
 		return getAverageResults(starttime, endtime, batches);
 	}
 
@@ -717,6 +724,17 @@ public class DBHelper {
 				.append("'");
 		sb.append(" AND ").append(SKSQLiteHelper.PM_COLUMN_VALUE)
 				.append("= 'mobile' ");
+		return sb.toString();
+	}
+	
+	private String getWiFiPassiveMetricsFilter() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(SKSQLiteHelper.PM_COLUMN_METRIC);
+		sb.append("= '")
+				.append(PassiveMetric.METRIC_TYPE.ACTIVENETWORKTYPE.metric_name)
+				.append("'");
+		sb.append(" AND ").append(SKSQLiteHelper.PM_COLUMN_VALUE)
+				.append("= 'WiFi' ");
 		return sb.toString();
 	}
 	
@@ -750,12 +768,21 @@ public class DBHelper {
 		}
 	}
 
-	public List<Integer> getTestBatchesByPassiveMetric(long start_time,
+	public List<Integer> getMobileTestBatchesByPassiveMetric(long start_time,
 			long end_time) {
 
 		String selection = String.format(SKSQLiteHelper.PM_COLUMN_DTIME
 				+ " BETWEEN %d AND %d", start_time, end_time);
 		selection += " AND " + getMobilePassiveMetricsFilter();
+		return getTestBatchesByPassiveMetric(selection);
+	}
+	
+	public List<Integer> getWiFiTestBatchesByPassiveMetric(long start_time,
+			long end_time) {
+
+		String selection = String.format(SKSQLiteHelper.PM_COLUMN_DTIME
+				+ " BETWEEN %d AND %d", start_time, end_time);
+		selection += " AND " + getWiFiPassiveMetricsFilter();
 		return getTestBatchesByPassiveMetric(selection);
 	}
 
