@@ -308,7 +308,8 @@ function parseData(data, tag){
   	  	  item = data['results'][key];
   	  	  value=item.value;
           time = getDate(item.datetime);
-          type = item.networktype;
+          type = item.graph_networktype;
+          log("type" + type)
           if (type == 'WiFi') {
               wifi_data.push([time, value]);
           }
@@ -319,6 +320,8 @@ function parseData(data, tag){
     }
     new_data[0] = mobile_data;
     new_data[1] = wifi_data;
+    log("newdata[0]" + new_data[0]);
+    log("newdata[1]" + new_data[1]);
     
     return new_data;
 }

@@ -444,4 +444,5 @@
 	<string name="negative_one">-1</string>
 	<string name="continuous_interval_warn">Test interval is too low.</string>
 	<string name="cancel_running_continuous">Cancel All Continuous</string>
+	<string name="networktype">Network</string>
 </resources>

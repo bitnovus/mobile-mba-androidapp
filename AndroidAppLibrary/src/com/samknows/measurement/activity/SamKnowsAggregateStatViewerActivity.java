@@ -543,12 +543,14 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 		String dtime_formatted = null;
 		String result;
 		String success;
+		String networktype;
 
 		for (int i = 0; i < results.length(); i++) {
 			location = "";
 			dtime = "";
 			result = "";
 			success = "";
+			networktype = "";
 			JSONObject user = null;
 			try {
 				user = results.getJSONObject(i);
@@ -559,6 +561,7 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 				success = user.getString("success");
 				location = user.getString("location");
 				dtime = user.getString("dtime");
+				networktype = user.getString(DBHelper.GRIDDATA_NETWORKTYPE);
 				if (dtime != "") {
 
 					long datelong = Long.parseLong(dtime);
@@ -577,10 +580,10 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 			}
 
 			if (success.equals("1")) {
-				addGridItem(dtime_formatted, location, result, grid);
+				addGridItem(dtime_formatted, location, result, networktype, grid);
 			} else {
 				result = getString(R.string.failed);
-				addGridItemFailed(dtime_formatted, location, result, grid);
+				addGridItemFailed(dtime_formatted, location, result, networktype, grid);
 			}
 		}
 
@@ -898,7 +901,7 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 		table.addView(row);
 	}
 
-	private void addGridItem(String timestamp, String location, String result,
+	private void addGridItem(String timestamp, String location, String result, String networktype,
 			int grid) {
 		TableLayout table = (TableLayout) findViewById(grid);
 		TableLayout row = (TableLayout) LayoutInflater.from(
@@ -910,12 +913,13 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 		((TextView) row.findViewById(R.id.stat_grid_location))
 				.setText(location);
 		((TextView) row.findViewById(R.id.stat_grid_result)).setText(result);
+		((TextView) row.findViewById(R.id.stat_grid_networktype)).setText(networktype);
 
 		table.addView(row);
 	}
 
 	private void addGridItemFailed(String timestamp, String location,
-			String result, int grid) {
+			String result, String networktype, int grid) {
 		TableLayout table = (TableLayout) findViewById(grid);
 		TableLayout row = (TableLayout) LayoutInflater.from(
 				SamKnowsAggregateStatViewerActivity.this).inflate(
@@ -926,6 +930,7 @@ public class SamKnowsAggregateStatViewerActivity extends BaseLogoutActivity
 		((TextView) row.findViewById(R.id.stat_grid_location))
 				.setText(location);
 		((TextView) row.findViewById(R.id.stat_grid_result)).setText(result);
+		((TextView) row.findViewById(R.id.stat_grid_networktype)).setText(networktype);
 
 		table.addView(row);
 	}

@@ -65,7 +65,7 @@ public class DBHelper {
 			GRAPHDATA_RESULTS_VALUE };
 	
 	// extra key for graphing 
-	public static final String GRAPHDATA_NETWORKTYPE = "networktype";
+	public static final String GRAPHDATA_NETWORKTYPE = "graph_networktype";
 
 	// gridtata JSONObject keys
 	public static final String GRIDDATA_TYPE = "type";
@@ -79,6 +79,8 @@ public class DBHelper {
 	public static final String GRIDDATA_RESULTS_HRRESULT = "hrresult";
 	public static final String[] GRIDDATA_JSON_KEYS = { GRIDDATA_TYPE,
 			GRIDDATA_RESULTS };
+	// extra key for networktype
+		public static final String GRIDDATA_NETWORKTYPE = "grid_networktype";
 
 	// averagedata JSONObject keys
 	public static final String AVERAGEDATA_TYPE = "type";
@@ -212,11 +214,13 @@ public class DBHelper {
 			int success = tr.getInt(SKSQLiteHelper.TR_COLUMN_SUCCESS);
 			double result = tr.getDouble(SKSQLiteHelper.TR_COLUMN_RESULT);
 			String hrresult = TestResult.hrResult(test_type_id, result);
+			String networktype = tr.getString(GRIDDATA_NETWORKTYPE);
 			ret.put(GRIDDATA_RESULTS_DTIME, dtime);
 			ret.put(GRIDDATA_RESULTS_SUCCESS, success + "");
 			ret.put(GRIDDATA_RESULTS_LOCATION, location);
 			ret.put(GRIDDATA_RESULTS_RESULT, result);
 			ret.put(GRIDDATA_RESULTS_HRRESULT, hrresult);
+			ret.put(GRIDDATA_NETWORKTYPE, networktype);
 		} catch (JSONException je) {
 
 		}
@@ -312,6 +316,7 @@ public class DBHelper {
 			ret.put(GRIDDATA_TYPE, test_type_id);
 			JSONArray results = new JSONArray();
 			for (JSONObject jo : entries) {
+				jo.put(GRIDDATA_NETWORKTYPE, getNetworkValue(jo.getInt("batch_id")));
 				results.put(testResultToGridData(jo));
 			}
 			ret.put(GRIDDATA_RESULTS, results);
@@ -373,7 +378,7 @@ public class DBHelper {
 	// Return a summary of the archive data
 	public JSONObject getArchiveDataSummary() {
 		synchronized (sync) {
-			List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
+			List<Integer> batches = getTestBatchesByPassiveMetric(getMobilePassiveMetricsFilter());
 			
 			open();
 			JSONObject ret = new JSONObject();
@@ -622,7 +627,7 @@ public class DBHelper {
 		String selection = String.format("%s = '%s'",
 				SKSQLiteHelper.TR_COLUMN_TYPE, type);
 		String limit = String.format("%d,%d", startindex, n);
-		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
+		List<Integer> batches = getTestBatchesByPassiveMetric(getAllPassiveMetricsFilter());
 		if (batches == null || batches.size() == 0) {
 			return new ArrayList<JSONObject>();
 		}
@@ -704,7 +709,7 @@ public class DBHelper {
 
 	// When retrieving averages, graph and grid data we have to filter by
 	// Passive metric
-	private String getPassiveMetricsFilter() {
+	private String getMobilePassiveMetricsFilter() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(SKSQLiteHelper.PM_COLUMN_METRIC);
 		sb.append("= '")
@@ -750,7 +755,7 @@ public class DBHelper {
 
 		String selection = String.format(SKSQLiteHelper.PM_COLUMN_DTIME
 				+ " BETWEEN %d AND %d", start_time, end_time);
-		selection += " AND " + getPassiveMetricsFilter();
+		selection += " AND " + getMobilePassiveMetricsFilter();
 		return getTestBatchesByPassiveMetric(selection);
 	}
 

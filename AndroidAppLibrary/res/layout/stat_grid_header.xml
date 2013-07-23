@@ -36,9 +36,19 @@
         <TextView
             android:id="@+id/stat_grid_result"
             style="@style/column_left"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/date"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#60abca"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/stat_grid_networktype"
+            style="@style/column_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/networktype"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#60abca"
             android:textSize="12sp" />
